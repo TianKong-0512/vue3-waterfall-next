@@ -189,7 +189,6 @@ const handleResize = () => {
   nextTick(() => {
     setTimeout(() => {
       const imgWidth = getIamgeWidth()
-      console.log('imgWidth', imgWidth)
       waterfallImgs.value.forEach((item) => {
         const ratio = item.width / imgWidth
         if (imgViewState[item.onlyid]) {

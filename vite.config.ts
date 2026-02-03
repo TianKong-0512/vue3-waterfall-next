@@ -46,7 +46,7 @@ export default defineConfig({
     })
   ],
   build: {
-    outDir: 'dist',
+    outDir: './dist/packages',
     lib: {
       entry: resolve(__dirname, 'packages/index.ts'),
       name: 'Vue3Waterfall',

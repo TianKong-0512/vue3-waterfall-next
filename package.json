@@ -1,6 +1,6 @@
 {
   "name": "vue3-waterfall-next",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Vue3 瀑布流组件",
   "keywords": [
     "vue3",
@@ -29,12 +29,11 @@
   },
   "dependencies": {
     "@vitejs/plugin-vue-jsx": "^5.1.4",
-    "lodash": "^4.17.23",
     "sass": "^1.97.3",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-lib-inject-css": "^2.2.2",
     "vue": "^3.5.27",
-    "vue3-waterfall-next": "^1.0.0"
+    "vue3-waterfall-next": "^1.0.6"
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",

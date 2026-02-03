@@ -1,0 +1,28 @@
+# 忽略文件
+node_modules
+src
+examples
+*.config.*
+*.log
+*.md
+*.test.*
+*.spec.*
+.storybook
+coverage
+packages/*
+.vscode
+temp
+.gitignore
+tsconfig.json
+tsconfig.*.json
+vite.config.ts
+public/*
+DEV-README.MD
+
+# 保留文件
+!packages/index.d.ts
+!packages/*.js
+!packages/*.mjs
+!packages/*.cjs
+!packages/style.css
+!package.json

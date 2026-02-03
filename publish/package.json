@@ -1,0 +1,33 @@
+{
+  "name": "vue3-waterfall-next",
+  "version": "1.0.0",
+  "description": "Vue3 瀑布流组件",
+  "keywords": [
+    "vue3",
+    "waterfall",
+    "layout",
+    "component"
+  ],
+  "private": false,
+  "type": "module",
+  "main": "./packages/index.js",
+  "module": "./packages/index.mjs",
+  "types": "./packages/index.d.ts",
+  "files": [
+    "packages/*"
+  ],
+  "author": {
+    "name": "GaoYi",
+    "email": "1219164581@qq.com"
+  },
+  "dependencies": {
+    "lodash": "^4.17.23",
+    "vue": "^3.5.27"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.17.23"
+  },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  }
+}
