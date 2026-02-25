@@ -1,6 +1,6 @@
 {
   "name": "vue3-waterfall-next",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Vue3 瀑布流组件",
   "keywords": [
     "vue3",
@@ -16,20 +16,26 @@
   "files": [
     "dist/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TianKong-0512/vue3-waterfall-next.git"
+  },
   "author": {
     "name": "GaoYi",
     "email": "1219164581@qq.com"
   },
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit && vite build && ts-node scripts/build-after.ts",
     "preview": "vite preview",
     "build:types": "vue-tsc --declaration --emitDeclarationOnly --outDir dist",
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
     "@vitejs/plugin-vue-jsx": "^5.1.4",
+    "fs-extra": "^11.3.3",
     "sass": "^1.97.3",
+    "ts-node": "^10.9.2",
     "vite-plugin-dts": "^4.5.4",
     "vite-plugin-lib-inject-css": "^2.2.2",
     "vue": "^3.5.27",
@@ -37,6 +43,7 @@
   },
   "devDependencies": {
     "@tsconfig/node24": "^24.0.4",
+    "@types/fs-extra": "^11.0.4",
     "@types/lodash": "^4.17.23",
     "@types/node": "^24.10.9",
     "@vitejs/plugin-vue": "^6.0.3",
