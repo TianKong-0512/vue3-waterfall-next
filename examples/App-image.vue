@@ -23,7 +23,6 @@
 </template>
 
 <script lang="ts" setup>
-import Vue3WaterfallImage from '../packages/waterfallImage'
 import { ref } from 'vue'
 
 const imgClick = (e: any) => {
@@ -90,6 +89,7 @@ const list = ref([
 // }, 5000)
 
 setTimeout(() => {
+  console.log('删除')
   list.value.splice(1, 1)
 }, 3000)
 </script>
