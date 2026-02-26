@@ -11,23 +11,24 @@
       only-filed-key="src"
     >
       <template #default="{ item, index }">
-        <template v-if="item && item.onlyid">
+        <template v-if="item && item.onlykey">
           <slot name="header" :item="item" :index="index"> </slot>
           <div
             class="img-view"
             :style="{
-              height: `${imgViewState[item.onlyid]?.height || 0}px`,
+              height: `${imgViewState[item.onlykey]?.height || 0}px`,
             }"
             v-bind="$props.imgViewBind"
           >
-            {{ !imgViewState[item.onlyid]?.append ? appendImage(item) : '' }}
             <div
               class="slot-img"
-              :ref="(el) => slotImageRefSet(item.onlyid, el)"
+              :ref="(el) => slotImageRefSet(item, el)"
+              :key="item.onlykey"
               @click.prevent.stop="
-                $emit('imgClick', { index, item, imageReact: imgViewState[item.onlyid] })
+                $emit('imgClick', { index, item, imageReact: imgViewState[item.onlykey] })
               "
             ></div>
+            <!-- {{ appendImage(item) }} -->
             <slot :item="item" :index="index"> </slot>
           </div>
           <slot name="footer" :item="item" :index="index"> </slot>
@@ -44,12 +45,11 @@ export default {
 <script setup lang="ts">
 import { nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue'
 import vue3Waterfall from '../../waterfall/src/index.vue'
-import { contrastTwoArr } from './utils'
-import { cloneDeep } from 'lodash'
 import type {
   CountData,
   ImgViewState,
   WaterfallImgs,
+  WaterfallImgsKeyJson,
   imgClickEvent,
   vue3WaterfallImageProps,
 } from './type'
@@ -65,6 +65,7 @@ const props = withDefaults(defineProps<vue3WaterfallImageProps>(), {
   rowGap: 10,
   imgViewBind: () => ({}),
   loadEndAppend: false,
+  onlyFiledKey: 'id',
 })
 
 watch([() => props.columns, () => props.columnGap, () => props.rowGap], (newVl) => {
@@ -75,13 +76,20 @@ watch([() => props.columns, () => props.columnGap, () => props.rowGap], (newVl) 
 })
 
 watch(
-  () => cloneDeep(props.list),
+  () => props.list.map((item) => item),
   (newVl, oldVl) => {
-    if (newVl < oldVl) {
+    const newOnlyKeys = newVl.map((item) => item[props.onlyFiledKey]).join(',')
+    const oldOnlyKeys = oldVl.map((item) => item[props.onlyFiledKey]).join(',')
+    if (newOnlyKeys == oldOnlyKeys) {
       return
     }
-    const appendList = contrastTwoArr(newVl, oldVl, 'src')
-    loadImages(appendList)
+    if (!(newVl instanceof Array)) {
+      newVl = []
+    }
+    loadImages(newVl)
+  },
+  {
+    deep: true,
   },
 )
 
@@ -93,16 +101,30 @@ onMounted(() => {
 })
 
 const slotImageRef: any = {}
-const slotImageRefSet = (onlyid: string, el: any) => {
-  slotImageRef[onlyid] = el
+const slotImageRefSet = (item: any, el: any) => {
+  if (!el) {
+    return
+  }
+  slotImageRef[item.onlykey] = el
+  nextTick(() => {
+    appendImage(item)
+  })
 }
 
 const appendImage = (item: any) => {
   nextTick(() => {
-    imgViewState[item.onlyid]!.append = true
-    const container = document.createElement('div')
-    container.appendChild(imgViewState[item.onlyid]!.img)
-    slotImageRef[item.onlyid].appendChild(container)
+    setTimeout(() => {
+      if (!slotImageRef[item.onlykey]) {
+        return
+      }
+      if (imgViewState[item.onlykey]!.append) {
+        slotImageRef[item.onlykey].innerHTML = ''
+      }
+      imgViewState[item.onlykey]!.append = true
+      const container = document.createElement('div')
+      container.appendChild(imgViewState[item.onlykey]!.img)
+      slotImageRef[item.onlykey].appendChild(container)
+    }, 100)
   })
 }
 
@@ -111,14 +133,14 @@ const getIamgeWidth = () => {
   return (waterfallImageMain.value.offsetWidth - gapWidth) / Number(props.columns)
 }
 
-const getImageData = (onlyid: string, img: HTMLImageElement, imgWidth: number): CountData => {
+const getImageData = (onlykey: string, img: HTMLImageElement, imgWidth: number): CountData => {
   const ratio = img.width / imgWidth
   const countData: CountData = {
     width: img.width,
     height: img.height,
-    onlyid,
+    onlykey,
   }
-  imgViewState[onlyid] = {
+  imgViewState[onlykey] = {
     countData,
     height: img.height / ratio,
     img,
@@ -136,13 +158,21 @@ const getImageData = (onlyid: string, img: HTMLImageElement, imgWidth: number): 
 const loadEndHandle = (
   loadIndex: number,
   list: any[],
-  appendImage: WaterfallImgs[],
+  imageJosn: WaterfallImgsKeyJson,
   imageItem?: any,
   index?: number,
 ) => {
   if (props.loadEndAppend) {
     if (loadIndex >= list.length) {
-      waterfallImgs.value.push(...appendImage)
+      waterfallImgs.value = []
+      if (imageJosn) {
+        props.list.forEach((item: any) => {
+          const onlykey = `${item[props.onlyFiledKey]}`
+          if (imageJosn && item[onlykey] && imageJosn[onlykey]) {
+            waterfallImgs.value.push(imageJosn[onlykey]!)
+          }
+        })
+      }
       waterfallRefresh()
     }
   } else {
@@ -154,26 +184,60 @@ const loadEndHandle = (
 }
 
 const loadImages = (list?: any[]) => {
-  waterfallImgs.value = []
   if (!list) list = props.list
   let loadIndex = 0
   const imgWidth = getIamgeWidth()
-  const appendImage: any[] = []
+  const imageJosn: WaterfallImgsKeyJson = {}
+  const existImages: WaterfallImgsKeyJson = {}
+  waterfallImgs.value.forEach((item) => {
+    existImages[item.onlykey] = item
+  })
+
+  const removeOnlyid: string[] = waterfallImgs.value.map((item) => item.onlykey)
+  list.forEach((item: any) => {
+    const onlykey = `${item[props.onlyFiledKey]}`
+    const ofIndex = removeOnlyid.indexOf(onlykey)
+    if (ofIndex !== -1) {
+      removeOnlyid.splice(ofIndex, 1)
+    }
+  })
+
+  const removeHandle = () => {
+    if (loadIndex >= list.length) {
+      if (removeOnlyid.length) {
+        waterfallImgs.value = waterfallImgs.value.filter(
+          (item) => !removeOnlyid.includes(item.onlykey),
+        )
+      }
+      return
+    }
+    waterfallRefresh()
+  }
+
   list.forEach((item: any, index: number) => {
-    const onlyid = crypto.randomUUID()
-    waterfallImgs.value.push({ onlyid: '', item: null })
-    appendImage.push(null)
+    const onlykey = `${item[props.onlyFiledKey]}`
+    if (existImages[onlykey]) {
+      imageJosn[onlykey] = existImages[onlykey]
+      loadIndex++
+      removeHandle()
+      return
+    } else {
+      waterfallImgs.value.splice(index, 0, { onlykey: '', item: null })
+      imageJosn[onlykey] = null
+    }
     const img = new Image()
     img.src = item.src
     img.onload = () => {
-      const countData = getImageData(onlyid, img, imgWidth)
+      const countData = getImageData(onlykey, img, imgWidth)
       const imageItem = { ...countData, item }
-      appendImage[index] = imageItem
-      loadIndex = loadEndHandle(loadIndex, list, appendImage, imageItem, index)
+      imageJosn[onlykey] = imageItem
+      loadIndex = loadEndHandle(loadIndex, list, imageJosn, imageItem, index)
+      removeHandle()
     }
     img.onerror = () => {
-      appendImage[index] = false
-      loadIndex = loadEndHandle(loadIndex, list, appendImage)
+      imageJosn[onlykey] = null
+      loadIndex = loadEndHandle(loadIndex, list, imageJosn)
+      removeHandle()
     }
   })
 }
@@ -191,8 +255,8 @@ const handleResize = () => {
       const imgWidth = getIamgeWidth()
       waterfallImgs.value.forEach((item) => {
         const ratio = item.width / imgWidth
-        if (imgViewState[item.onlyid]) {
-          imgViewState[item.onlyid]!.height = Math.floor(item.height / ratio)
+        if (imgViewState[item.onlykey]) {
+          imgViewState[item.onlykey]!.height = Math.floor(item.height / ratio)
         }
       })
       waterfallRefresh()

@@ -121,11 +121,7 @@ rowGap:行间距（默认10px）
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-
-onMounted(() => {
-  console.log('初始化')
-})
+import { ref } from 'vue'
 
 const imgClick = (e: any) => {
   console.log('点击了图片', e)
