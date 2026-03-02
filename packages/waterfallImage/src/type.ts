@@ -4,7 +4,7 @@ export interface CountData {
   width?: number
   height?: number
   append?: boolean
-  onlyid: string
+  onlykey: string
 }
 
 export interface WaterfallImgs extends CountData {
@@ -33,4 +33,8 @@ export interface ImgViewState {
 export interface vue3WaterfallImageProps extends WaterfallProps {
   imgViewBind?: any
   loadEndAppend?: boolean
+}
+
+export interface WaterfallImgsKeyJson {
+  [key: string]: WaterfallImgs | null
 }

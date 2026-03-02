@@ -9,11 +9,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, reactive, toRefs, ref, inject } from 'vue'
-
-onMounted(() => {
-  console.log('初始化')
-})
+import { ref } from 'vue'
 
 const list = ref([
   {

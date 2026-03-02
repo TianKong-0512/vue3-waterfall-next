@@ -1,6 +1,6 @@
 {
   "name": "vue3-waterfall-next",
-  "version": "1.0.0",
+  "version": "1.1.1",
   "description": "Vue3 瀑布流组件",
   "keywords": [
     "vue3",
@@ -16,6 +16,10 @@
   "files": [
     "packages/*"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TianKong-0512/vue3-waterfall-next.git"
+  },
   "author": {
     "name": "GaoYi",
     "email": "1219164581@qq.com"

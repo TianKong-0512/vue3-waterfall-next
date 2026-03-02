@@ -8,7 +8,7 @@
         class="waterfall-col"
         :data-id="item"
         v-if="
-          (props.source == 'waterfall-image' && 'onlyid' in item && item.onlyid) ||
+          (props.source == 'waterfall-image' && 'onlykey' in item && item.onlykey) ||
           props.source != 'waterfall-image'
         "
       >
