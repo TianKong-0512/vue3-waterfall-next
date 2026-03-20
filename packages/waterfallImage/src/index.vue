@@ -28,7 +28,6 @@
                 $emit('imgClick', { index, item, imageReact: imgViewState[item.onlykey] })
               "
             ></div>
-            <!-- {{ appendImage(item) }} -->
             <slot :item="item" :index="index"> </slot>
           </div>
           <slot name="footer" :item="item" :index="index"> </slot>
@@ -162,24 +161,26 @@ const loadEndHandle = (
   imageItem?: any,
   index?: number,
 ) => {
+  loadIndex++
   if (props.loadEndAppend) {
     if (loadIndex >= list.length) {
-      waterfallImgs.value = []
+      const imageList: WaterfallImgs[] = []
       if (imageJosn) {
         props.list.forEach((item: any) => {
           const onlykey = `${item[props.onlyFiledKey]}`
-          if (imageJosn && item[onlykey] && imageJosn[onlykey]) {
-            waterfallImgs.value.push(imageJosn[onlykey]!)
+          if (imageJosn && imageJosn[onlykey]) {
+            imageList.push(imageJosn[onlykey]!)
           }
         })
       }
+      waterfallImgs.value = imageList
       waterfallRefresh()
     }
   } else {
     waterfallImgs.value[index!] = imageItem
     waterfallRefresh()
   }
-  loadIndex++
+
   return loadIndex
 }
 
@@ -245,7 +246,9 @@ const loadImages = (list?: any[]) => {
 const vue3WaterfallRef = ref()
 const waterfallRefresh = () => {
   nextTick(() => {
-    vue3WaterfallRef.value.refresh()
+    if (vue3WaterfallRef.value) {
+      vue3WaterfallRef.value.refresh()
+    }
   })
 }
 

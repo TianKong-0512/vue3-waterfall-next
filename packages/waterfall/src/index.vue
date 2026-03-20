@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<WaterfallProps>(), {
   columns: 2,
   columnGap: 10,
   rowGap: 10,
-  onlyFiledKey: '',
+  onlyFiledKey: 'id',
 })
 
 interface waterfallFlow {
