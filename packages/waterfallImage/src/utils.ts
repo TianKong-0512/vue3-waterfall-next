@@ -1,6 +1,3 @@
-import { cloneDeep } from 'lodash'
-
-
 
 export const simpleHash = (str: string, length = 6) => {
   let hash = 0
