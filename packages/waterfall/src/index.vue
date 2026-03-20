@@ -2,7 +2,13 @@
   <div class="waterfall-row" ref="waterfallRow">
     <template
       v-for="(item, index) of list"
-      :key="item && props.onlyFiledKey ? item[props.onlyFiledKey] : item ? item : index"
+      :key="
+        item && props.onlyFiledKey && item instanceof Object
+          ? item[props.onlyFiledKey]
+          : item
+            ? item
+            : index
+      "
     >
       <div
         class="waterfall-col"

@@ -89,7 +89,7 @@ const items = ref([
 | columns      | Number | 2      | 列数           |
 | columnGap    | Number | 10     | 列间距(px)     |
 | rowGap       | Number | 10     | 行间距(px)     |
-| onlyFiledKey | String | ''     | 唯一标识字段名 |
+| onlyFiledKey | String | 'id'   | 唯一标识字段名 |
 
 #### 方法
 
