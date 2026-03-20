@@ -16,25 +16,25 @@ yarn add vue3-waterfall-next
 
 ### Waterfall 组件
 
-| 属性           | 类型               | 默认值 | 说明        |
-| -------------- | ------------------ | ------ | ----------- |
-| `list`         | `any[]`            | `[]`   | 数据列表    |
-| `columns`      | `number \| string` | `2`    | 列数        |
-| `columnGap`    | `number \| string` | `10`   | 列间距 (px) |
-| `rowGap`       | `number \| string` | `10`   | 行间距 (px) |
-| `onlyFiledKey` | `string`           | `'id'` | 唯一键字段  |
+| 属性           | 类型             | 默认值 | 说明        |
+| -------------- | ---------------- | ------ | ----------- |
+| `list`         | `any[]`          | `[]`   | 数据列表    |
+| `columns`      | `number\|string` | `2`    | 列数        |
+| `columnGap`    | `number\|string` | `10`   | 列间距 (px) |
+| `rowGap`       | `number\|string` | `10`   | 行间距 (px) |
+| `onlyFiledKey` | `string`         | `'id'` | 唯一键字段  |
 
 ### WaterfallImages 组件
 
-| 属性            | 类型               | 默认值  | 说明                           |
-| --------------- | ------------------ | ------- | ------------------------------ |
-| `list`          | `any[]`            | `[]`    | 图片数据列表                   |
-| `columns`       | `number \| string` | `2`     | 列数                           |
-| `columnGap`     | `number \| string` | `10`    | 列间距 (px)                    |
-| `rowGap`        | `number \| string` | `10`    | 行间距 (px)                    |
-| `onlyFiledKey`  | `string`           | `'id'`  | 数组唯一标识字段               |
-| `imgViewBind`   | `any`              | `{}`    | 图片容器绑定属性               |
-| `loadEndAppend` | `boolean`          | `false` | 是否在图片全部加载完成后再显示 |
+| 属性            | 类型             | 默认值  | 说明                           |
+| --------------- | ---------------- | ------- | ------------------------------ |
+| `list`          | `any[]`          | `[]`    | 图片数据列表                   |
+| `columns`       | `number\|string` | `2`     | 列数                           |
+| `columnGap`     | `number\|string` | `10`    | 列间距 (px)                    |
+| `rowGap`        | `number\|string` | `10`    | 行间距 (px)                    |
+| `onlyFiledKey`  | `string`         | `'id'`  | 数组唯一标识字段               |
+| `imgViewBind`   | `any`            | `{}`    | 图片容器绑定属性               |
+| `loadEndAppend` | `boolean`        | `false` | 是否在图片全部加载完成后再显示 |
 
 ### 事件
 
@@ -135,7 +135,9 @@ const previewImage = (index) => {
 </script>
 ```
 
-### 🎯 **零配置**
+## ✨ 让开发者尖叫的功能亮点
+
+### 🎯 **真正的零配置**
 
 ```vue
 <!-- ✅ 我们的组件：上传什么图片都能完美展示 -->
@@ -257,6 +259,7 @@ const myData = ref([
 | 支持渠道          | 联系方式                                                                |
 | ----------------- | ----------------------------------------------------------------------- |
 | **GitHub Issues** | [提交问题](https://github.com/TianKong-0512/vue3-waterfall-next/issues) |
+| **CSDN私信**      | 关注后私信                                                              |
 | **邮箱咨询**      | 1219164581@qq.com                                                       |
 
 ---
@@ -278,18 +281,6 @@ npm install vue3-waterfall-next
 </div>
 
 ---
-
-## 💻 使用示例
-
-## 🐛 常见问题
-
-### Q: 组件不更新布局？
-
-A: 确保数据变更后调用了 `waterfallRefresh` 方法。
-
-### Q: 性能问题如何优化？
-
-A: 对于大量数据，考虑使用虚拟滚动；对于大图，使用适当的压缩和格式优化。
 
 ## 📈 总结
 
